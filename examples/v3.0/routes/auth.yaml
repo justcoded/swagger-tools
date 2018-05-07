@@ -1,0 +1,119 @@
+openapi: "3.0.0"
+# paths
+paths:
+  login:
+    post:
+      tags:
+        - 'auth'
+      summary: 'User authentication'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          content: 
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '../models.yaml#/components/schemas/User'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+
+  verify:
+    post:
+      tags:
+        - 'auth'
+      summary: 'User token verification'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                auth_key:
+                  type: string
+      responses:
+        200:
+          content: 
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '../models.yaml#/components/schemas/User'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+
+  resetPassword:
+    post:
+      tags:
+        - 'auth'
+      summary: 'Request password reset email.'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        204:
+          $ref: '../responses.yaml#/components/responses/204'
+        400:
+          $ref: '../responses.yaml#/components/responses/400'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+          
+  verifyResetToken:
+    post:
+      tags:
+        - 'auth'
+      summary: 'Verify password reset token.'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                resetToken:
+                  type: string
+      responses:
+        204:
+          $ref: '../responses.yaml#/components/responses/204'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+
+  updatePassword:
+    post:
+      tags:
+        - 'auth'
+      summary: 'Update user password'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                resetToken:
+                  type: string
+                password:
+                  type: string
+      responses:
+        204:
+          $ref: '../responses.yaml#/components/responses/204'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'

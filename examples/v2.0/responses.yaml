@@ -1,0 +1,77 @@
+swagger: '2.0'
+responses:
+  201:
+    description: "Created."
+    schema:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+      example:
+        id: 1237
+    
+  204:
+    description: "Success."
+    
+  400:
+    description: "Bad Request."
+    schema:
+      $ref: '#/definitions/FailResponse'
+          
+  401:
+    description: "Unauthorized."
+          
+  404:
+    description: "Not Found."
+          
+  500:
+    description: "Server Error."
+    schema:
+      $ref: '#/definitions/FailResponse'
+
+definitions:
+  PaginationModel:
+    type: object
+    properties:
+      page:
+        type: integer
+        minimum: 1
+      pages:
+        type: integer
+        minimum: 1
+      per_page:
+        type: integer
+        minimum: 5
+    example:
+      page: 1
+      pages: 4
+      per_page: 50
+
+  FailResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: false
+      errors:
+        $ref: '#/definitions/ErrorsCollection'
+
+  ErrorsCollection:
+    type: array
+    items:
+      type: object
+      required:
+        - field
+        - message
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+      example:
+        field: email
+        message: "Email is not a valid email address."

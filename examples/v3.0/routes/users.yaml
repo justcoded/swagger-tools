@@ -1,0 +1,100 @@
+openapi: "3.0.0"
+# paths
+paths:
+  users:
+    get:
+      tags:
+        - 'user'
+      summary: 'Users list'
+      parameters:
+        - name: filter
+          description: 'Filter options'
+          in: query
+          schema:
+            type: object
+      responses:
+        200:
+          content: 
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  items:
+                    type: array
+                    items:
+                      $ref: '../models.yaml#/components/schemas/User'
+                  pagination:
+                    $ref: '../responses.yaml#/components/schemas/PaginationModel'
+    put:
+      tags:
+        - 'user'
+      summary: 'Create User'
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '../models.yaml#/components/schemas/User'
+      responses:
+        201:
+          $ref: '../responses.yaml#/components/responses/201'
+        400:
+          $ref: '../responses.yaml#/components/responses/400'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'  
+  user:
+    get:
+      tags:
+        - 'user'
+      summary: 'User details'
+      parameters:
+        - $ref: '../params.yaml#/components/parameters/{user_id}'
+      responses:
+        200:
+          content: 
+            application/json: 
+              schema:
+                $ref: "../models.yaml#/components/schemas/User"
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+    post:
+      tags:
+        - 'user'
+      summary: 'Update User'
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '../params.yaml#/components/parameters/{user_id}'
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '../models.yaml#/components/schemas/User'
+      responses:
+        204:
+          $ref: '../responses.yaml#/components/responses/204'
+        400:
+          $ref: '../responses.yaml#/components/responses/400'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+    delete:
+      tags:
+        - 'user'
+      summary: 'Delete User'
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '../params.yaml#/components/parameters/{user_id}'
+      responses:
+        204:
+          $ref: '../responses.yaml#/components/responses/204'
+        404:
+          $ref: '../responses.yaml#/components/responses/404'
+           
+          
+# local components          
+components:
+  parameters:
+    "{user_id}":
+      $ref: '../params.yaml#/components/parameters/{user_id}'      

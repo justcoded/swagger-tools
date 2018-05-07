@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+components:
+  responses:
+    201:
+      description: "Created."
+      content: 
+        application/json: 
+          schema:
+            properties:
+              id:
+                type: integer
+                format: int64
+            example:
+              id: 1237
+      
+    204:
+      description: "Success."
+      
+    400:
+      description: "Bad Request."
+      content: 
+        application/json: 
+          schema:
+            $ref: '#/components/schemas/ErrorModel'
+            
+    401:
+      description: "Unauthorized."
+            
+    404:
+      description: "Not Found."
+            
+    500:
+      description: "Server Error."
+      content: 
+        application/json: 
+          schema:
+            $ref: '#/components/schemas/ErrorModel'
+
+  schemas:
+    PaginationModel:
+      type: object
+      properties:
+        page:
+          type: integer
+        pages:
+          type: integer
+        per_page:
+          type: integer
+      example:
+        page: 2
+        pages: 10
+        per_page: 50
+  
+    ErrorModel:
+      type: object
+      properties:
+        success:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+      example:
+        success: false
+        errors:
+          name: "Name is required."
+          email: "Email is not a valid email address."

@@ -1,0 +1,38 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "API Specification"
+  description: "This is API specification starter template."
+servers:
+  - url: http://my-domain.com/api/
+
+paths:
+  /auth/sign-in:
+    $ref: "routes/auth.yaml#/paths/login"
+  /auth/verify:
+    $ref: "routes/auth.yaml#/paths/verify"
+  /auth/password-reset:
+    $ref: "routes/auth.yaml#/paths/resetPassword"
+  /auth/password-token-verify:
+    $ref: "routes/auth.yaml#/paths/verifyResetToken"
+  /auth/password-update:
+    $ref: "routes/auth.yaml#/paths/updatePassword"
+
+  /users:
+    $ref: "routes/users.yaml#/paths/users"
+  /users/{user_id}:
+    $ref: "routes/users.yaml#/paths/user"
+
+components:
+  schemas:
+    User:
+      $ref: "models.yaml#/components/schemas/User"
+  
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+       
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

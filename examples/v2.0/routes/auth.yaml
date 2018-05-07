@@ -1,0 +1,113 @@
+swagger: '2.0'
+# paths
+paths:
+  login:
+    post:
+      summary: 'User authentication'
+      tags:
+        - 'auth'
+      parameters:
+      - name: email
+        in: formData
+        required: true
+        type: string
+      - name: password
+        in: formData
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              auth_token:
+                type: string
+              user:
+                $ref: '../models.yaml#/definitions/User'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+  verify:
+    post:
+      summary: 'User token verification'
+      tags:
+        - 'auth'
+      parameters:
+        - name: auth_key
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required:
+              - success
+              - user
+            properties:
+              success:
+                type: boolean
+              user:
+                $ref: '../models.yaml#/definitions/User'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  resetPassword:
+    post:
+      summary: 'Request password reset email.'
+      tags:
+        - 'auth'
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+      responses:
+        204:
+          $ref: '../responses.yaml#/responses/204'
+        400:
+          $ref: '../responses.yaml#/responses/400'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  verifyResetToken:
+    post:
+      summary: 'Verify password reset token.'
+      tags:
+        - 'auth'
+      parameters:
+        - name: resetToken
+          in: formData
+          type: string
+          required: true
+      responses:
+        204:
+          $ref: '../responses.yaml#/responses/204'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  updatePassword:
+    post:
+      summary: 'Update user password'
+      tags:
+        - 'auth'
+      parameters:
+        - name: resetToken
+          in: formData
+          type: string
+          required: true
+        - name: password
+          in: formData
+          type: string
+          format: password
+          required: true  
+      responses:
+        204:
+          $ref: '../responses.yaml#/responses/204'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+          
+          
