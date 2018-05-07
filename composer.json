@@ -1,0 +1,30 @@
+{
+  "name": "justcoded/swagger-tools",
+  "description": "Scripts to work with Swagger documentations",
+  "type": "project",
+  "keywords": [
+    "swagger",
+    "openapi",
+    "merge",
+    "faker"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Alex Prokopenko",
+      "email": "aprokopenko@justcoded.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0.0",
+    "symfony/yaml": "^4.0",
+    "swagger-api/swagger-ui": "^3.13",
+    "fzaninotto/faker": "v1.7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "justcoded\\swagger\\": "src/"
+    }
+  }
+}
