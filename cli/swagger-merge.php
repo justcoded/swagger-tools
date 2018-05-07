@@ -36,8 +36,8 @@ if (! is_file($filename)) {
 	exit(0);
 }
 
-$tools = new \JustCoded\SwaggerTools\YamlReader();
-$yaml  = $tools->parseMultiFile($filename);
-$config = $tools->dump($yaml);
+$reader = new \JustCoded\SwaggerTools\YamlReader();
+$yaml   = $reader->parseMultiFile($filename);
+$config = $reader->dump($yaml);
 
 echo $config;
