@@ -10,7 +10,7 @@ paths:
         - name: filter
           description: 'Filter options'
           in: query
-          type: object
+          type: string
       responses:
         200:
           description: OK
@@ -47,7 +47,7 @@ paths:
           required: true
         - name: email
           in: formData
-          type: email
+          type: string
           required: true
         - name: password
           in: formData
@@ -94,7 +94,7 @@ paths:
           required: true
         - name: email
           in: formData
-          type: email
+          type: string
           required: true
       responses:
         204:

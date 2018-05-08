@@ -5,6 +5,5 @@ parameters:
     description: User ID
     in: path
     required: true
-    schema:
-      type: integer
-      format: int64    
+    type: integer
+    format: int64    
