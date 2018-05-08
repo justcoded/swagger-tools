@@ -19,7 +19,7 @@ class Formatter
 		
 		// apply enum values for fake responses.
 		if (isset($yaml['definitions']) || isset($yaml['components']['schemas'])) {
-			$def_key = isset($yaml['definitions']) ? 'definitions' : 'components/schemas';
+			$def_key = isset($yaml['definitions']) ? 'definitions' : 'components.schemas';
 			$definitions = Arr::get($yaml, $def_key);
 			foreach ($definitions as $model => $schema) {
 				if ('object' === Arr::get($schema, 'type') && ! empty($schema['properties'])) {
@@ -61,7 +61,7 @@ class Formatter
 	{
 		// apply enum values for fake responses.
 		if (isset($yaml['definitions']) || isset($yaml['components']['schemas'])) {
-			$def_key = isset($yaml['definitions']) ? 'definitions' : 'components/schemas';
+			$def_key = isset($yaml['definitions']) ? 'definitions' : 'components.schemas';
 			$definitions = Arr::get($yaml, $def_key);
 			foreach ($definitions as $model => $schema) {
 				if ('object' === Arr::get($schema, 'type') && ! empty($schema['properties'])) {
