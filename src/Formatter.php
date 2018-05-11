@@ -13,7 +13,7 @@ use JustCoded\SwaggerTools\Helpers\Arr;
  */
 class Formatter
 {
-	public static function definitionsFakeEnums($yaml, $num)
+	public static function definitionsFakeEnums($yaml, $num, $cleanup = false)
 	{
 		$faker = \Faker\Factory::create();
 		
@@ -45,14 +45,19 @@ class Formatter
 						} catch (\Exception $e) {
 							throw new InvalidConfigException("Wrong faker formatter '{$formatter}' in {$model}->{$property}");
 						}
-						Arr::set($yaml, "$def_key.$model.properties.$property.enum", $enum);
-					}
-					// fill required array.
-					if (! isset($schema['required'])) {
-						Arr::set($yaml, "$def_key.$model.required", array_keys($schema['properties']));
+
+						$definitions[$model]['properties'][$property]['enum'] = $enum;
+
+						if ($cleanup) {
+							unset($definitions[$model]['properties'][$property]['x-faker']);
+							if (isset($params['x-faker-config'])) {
+								unset($definitions[$model]['properties'][$property]['x-faker-config']);
+							}
+						}
 					}
 				}
 			}
+			Arr::set($yaml, $def_key, $definitions);
 		}
 		return $yaml;
 	}

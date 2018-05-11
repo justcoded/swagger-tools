@@ -45,6 +45,7 @@ $opts = array_merge(
 	[
 		'n' => 10,
 		'r' => false,
+		'c' => false,
 	],
 	\JustCoded\SwaggerTools\Helpers\Cli::parseArguments($argv)
 );
@@ -52,7 +53,7 @@ $opts = array_merge(
 $reader = new \JustCoded\SwaggerTools\YamlReader();
 $yaml   = $reader->parse(file_get_contents($filename));
 
-$yaml = \JustCoded\SwaggerTools\Formatter::definitionsFakeEnums($yaml, $opts['n']);
+$yaml = \JustCoded\SwaggerTools\Formatter::definitionsFakeEnums($yaml, $opts['n'], $opts['c']);
 if ($opts['r']) {
 	$yaml = \JustCoded\SwaggerTools\Formatter::definitionsRequired($yaml);
 }

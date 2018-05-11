@@ -33,7 +33,7 @@ Add to your properties x-faker attribute:
             
 Run command:
 
-	./cli/swagger-faker.php examples/merged/swagger2.yaml -n10 -r > swagger-faked.yaml
+	./cli/swagger-faker.php examples/merged/swagger2.yaml -n10 -r -c > swagger-faked.yaml
 
 You will get:
 
