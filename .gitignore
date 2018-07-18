@@ -26,3 +26,4 @@ tests/_support/_generated
 
 # merged files
 /examples/merged
+/examples/oauth-local

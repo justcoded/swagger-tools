@@ -1,0 +1,112 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: OAuth2 Example Specification
+  description: Example of OAuth security declaration. Tested with https://github.com/bshaffer/oauth2-demo-php, however you will need to patch server code to resolve CORS issues.
+  
+host: my-domain.com
+basePath: /web/lockdin
+securityDefinitions:
+  oauth-clientid:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: http://oauth-domain.com/web/lockdin/authorize
+  oauth-pass:
+    type: oauth2
+    flow: password
+    tokenUrl: http://oauth-domain.com/web/lockdin/token
+  oauth-application:
+    type: oauth2
+    flow: application
+    tokenUrl: http://oauth-domain.com/web/lockdin/token
+  oauth-accesscode:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: ttp://oauth-domain.com/web/lockdin/authorize
+    tokenUrl: http://oauth-domain.com/web/lockdin/token
+    
+schemes:
+- http
+consumes:
+- application/x-www-form-urlencoded
+produces:
+- application/json
+
+paths:
+  /token:
+    post:
+      summary: Token generator API endpoint.
+      description: |
+        This endpoint is used for Client Credentials Grant, Authorization Code Grant or Resource Owner Password Credentials Grant.
+        
+        
+        * __Client Credentials Grant__: used `Authorization` header and `grant_type` body parameter.
+        * __Authorization Code Grant__: used `grant_type`, `client_id`, `client_secret`, `code`, `redirect_uri` body parameters.
+        * __Resource Owner Password Credentials Grant__: used `Authorization` header and `grant_type`, `username`, `password` body parameters.
+      tags:
+        - Authorization
+      parameters:
+        - name: grant_type
+          in: formData
+          type: string
+          description: OAuth2 Grant type
+          enum:
+            - authorization_code
+            - password
+            - client_credentials
+        - name: Authorization
+          in: header
+          type: string
+          description: 'Client ID/Client Secret hash. #ResourceOwnerPasswordCredentialsGrant #ClientCredentialsGrant'
+          default: 'Basic {base64(clientId:clientSecret)}'
+          x-usedFor: grant_type=password
+        - name: username
+          in: formData
+          type: string
+          description: 'Username.   #ResourceOwnerPasswordCredentialsGrant'
+          x-usedFor: grant_type=password
+        - name: password
+          in: formData
+          type: string
+          description: 'Password. #ResourceOwnerPasswordCredentialsGrant'
+          x-usedFor: grant_type=password
+        - name: client_id
+          in: formData
+          type: string
+          description: 'Client ID. #AuthorizationCodeGrant'
+          x-usedFor: grant_type=authorization_code
+        - name: client_secret
+          in: formData
+          type: string
+          description: 'Client Secret . #AuthorizationCodeGrant'
+          x-usedFor: grant_type=authorization_code
+        - name: code
+          in: formData
+          type: string
+          description: 'Code returned from /authorize URL on remote OAuth server. #AuthorizationCodeGrant'
+          x-usedFor: grant_type=authorization_code
+        - name: redirect_uri
+          in: formData
+          type: string
+          description: 'Redirect URI used as parameter for /authorize URL on remote OAuth Server. #AuthorizationCodeGrant'
+          x-usedFor: grant_type=authorization_code
+          
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad request. Some parameters missing.  
+          
+  /resource:
+    get:
+      summary: Test OAuth access token
+      tags:
+        - Resource test
+      security:
+        - oauth-clientid:
+        - oauth-pass:
+        - oauth-application:
+        - oauth-accesscode:
+      responses:
+        200:
+          description: OK
