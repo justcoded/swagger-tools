@@ -39,10 +39,11 @@ class Arr
 	 * `function($array, $defaultValue)`.
 	 * @param null|mixed      $default the default value to be returned if the specified array key does not exist. Not used when
 	 * getting value from an object.
+	 * @param string          $key_separator nested key parts separator
 	 *
 	 * @return mixed the value of the element if found, default value otherwise
 	 */
-	public static function get($array, $key, $default = null)
+	public static function get($array, $key, $default = null, $key_separator = '.')
 	{
 		if ($key instanceof \Closure) {
 			return $key($array, $default);
@@ -52,9 +53,9 @@ class Arr
 			return $array[$key];
 		}
 
-		if (($pos = strrpos($key, '.')) !== false) {
-			$array = Arr::get($array, substr($key, 0, $pos), $default);
-			$key   = substr($key, $pos + 1);
+		if (($pos = strrpos($key, $key_separator)) !== false) {
+			$array = Arr::get($array, substr($key, 0, $pos), $default, $key_separator);
+			$key   = substr($key, $pos + strlen($key_separator));
 		}
 
 		if (is_object($array)) {
@@ -118,8 +119,9 @@ class Arr
 	 * you can also describe the path as an array of keys
 	 * if the path is null then `$array` will be assigned the `$value`
 	 * @param mixed             $value the value to be written
+	 * @param string            $key_separator nested key parts separator
 	 */
-	public static function set(&$array, $path, $value)
+	public static function set(&$array, $path, $value, $key_separator = '.')
 	{
 		if ($path === null) {
 			$array = $value;
@@ -127,7 +129,7 @@ class Arr
 			return;
 		}
 
-		$keys = is_array($path) ? $path : explode('.', $path);
+		$keys = is_array($path) ? $path : explode($key_separator, $path);
 
 		while (count($keys) > 1) {
 			$key = array_shift($keys);

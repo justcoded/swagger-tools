@@ -16,6 +16,13 @@ use Symfony\Component\Yaml\Yaml as YamlParser;
 class YamlReader
 {
 	/**
+	 * Special symbol for building array nested keys
+	 *
+	 * URLs can contain usual cars like dots or lines, so to a safe key we will use rarely used ASCII symbol
+	 */
+	const ARR_KEY_SEP = '»';
+
+	/**
 	 * Parse multi-document yaml file.
 	 *
 	 * @param string $filename
@@ -51,9 +58,10 @@ class YamlReader
 	 */
 	public function mergeByReferences($yaml, $basedir, $index = '')
 	{
-		$branch = $index ? Arr::get($yaml, $index) : $yaml;
+		$ks     = static::ARR_KEY_SEP; // Safe nested array key separator.
+		$branch = $index ? Arr::get($yaml, $index, null, $ks) : $yaml;
 		foreach ($branch as $key => $value) {
-			$branch_key = trim("$index.$key", '.');
+			$branch_key = trim("{$index}{$ks}{$key}", $ks);
 			if (is_array($value)) {
 				$yaml = $this->mergeByReferences($yaml, $basedir, $branch_key);
 			} elseif ('$ref' === $key && is_string($value) && 0 !== strpos($value, '#')) {
@@ -81,19 +89,19 @@ class YamlReader
 
 				$ref_yaml = $this->parse($ref_yaml_content);
 				// get referenced yaml part.
-				$ref_branch = Arr::get($ref_yaml, Str::path2dotkey($path));
+				$ref_branch = Arr::get($ref_yaml, Str::path2arrkey($path, $ks), null, $ks);
 
-				$branch_parent_path = dirname(Str::dotkey2path($index));
-				$ref_parent_path    = dirname(Str::dotkey2path(Str::path2dotkey($path)));
+				$branch_parent_path = dirname(Str::arrkey2path($index, $ks));
+				$ref_parent_path    = dirname(Str::arrkey2path(Str::path2arrkey($path, $ks), $ks));
 
 				if ($branch_parent_path !== $ref_parent_path) {
-					Arr::set($yaml, $branch_key, "#$path");
-					$branch_key = Str::path2dotkey($path);
+					Arr::set($yaml, $branch_key, "#$path", $ks);
+					$branch_key = Str::path2arrkey($path, $ks);
 				} else {
 					$branch_key = $index;
 				}
 
-				Arr::set($yaml, $branch_key, $ref_branch);
+				Arr::set($yaml, $branch_key, $ref_branch, $ks);
 
 				// check refs in replaced fragment.
 				$yaml = $this->mergeByReferences($yaml, $basedir, $branch_key);
