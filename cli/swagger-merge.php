@@ -40,4 +40,9 @@ $reader = new \JustCoded\SwaggerTools\YamlReader();
 $yaml   = $reader->parseMultiFile($filename);
 $config = $reader->dump($yaml);
 
-echo $config;
+if (! empty($argv[2]) && is_writable(dirname($argv[2]))) {
+	file_put_contents($argv[2], $config);
+	echo "Specs saved as {$argv[2]}";
+} else {
+	echo $config;
+}
