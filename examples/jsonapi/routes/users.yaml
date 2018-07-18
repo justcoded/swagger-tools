@@ -1,0 +1,134 @@
+swagger: '2.0'
+# paths
+paths:
+  users:
+    get:
+      summary: 'Users list'
+      tags:
+        - 'user'
+      parameters:
+        - name: filter
+          description: 'Filter options'
+          in: query
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '../responses.yaml#/definitions/PaginationMeta'
+              data:
+                type: array
+                minItems: 3
+                maxItems: 20
+                items:
+                  $ref: '../models.yaml#/definitions/UserModel'
+                
+    post:
+      summary: 'Create User'
+      tags:
+        - 'user'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: data[type]
+          in: formData
+          type: string
+          required: true
+          default: user
+        - name: data[attributes][first_name]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][last_name]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][email]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][password]
+          in: formData
+          type: string
+          format: password
+          required: true
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '../models.yaml#/definitions/UserResponse'
+        422:
+          $ref: '../responses.yaml#/responses/422'   
+
+  user:
+    get:
+      summary: 'User details'
+      tags:
+        - 'user'
+      parameters:
+        - $ref: '../params.yaml#/parameters/{user_id}'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '../models.yaml#/definitions/UserResponse'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+    put:
+      summary: 'Update User'
+      tags:
+        - 'user'
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '../params.yaml#/parameters/{user_id}'
+        - name: data[type]
+          in: formData
+          type: string
+          required: true
+          default: user
+        - name: data[attributes][first_name]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][last_name]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][email]
+          in: formData
+          type: string
+          required: true
+        - name: data[attributes][password]
+          in: formData
+          type: string
+          format: password
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '../models.yaml#/definitions/UserResponse'
+        422:
+          $ref: '../responses.yaml#/responses/422'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+    delete:
+      summary: 'Delete User'
+      tags:
+        - 'user'
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '../params.yaml#/parameters/{user_id}'
+      responses:
+        204:
+          $ref: '../responses.yaml#/responses/204'
+        404:
+          $ref: '../responses.yaml#/responses/404'

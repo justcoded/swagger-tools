@@ -1,0 +1,9 @@
+swagger: "2.0"
+parameters:
+  "{user_id}":
+    name: user_id
+    description: User ID
+    in: path
+    required: true
+    type: integer
+    format: int64    

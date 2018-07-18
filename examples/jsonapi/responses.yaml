@@ -1,0 +1,141 @@
+swagger: '2.0'
+responses:
+  204:
+    description: "Success."
+    
+  400:
+    description: "Bad Request."
+    schema:
+      $ref: '#/definitions/ErrorResponse'
+          
+  401:
+    description: "Unauthorized."
+    schema:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object        
+            properties:
+              status: 
+                type: integer
+                example: 401
+              title:
+                type: string
+                example: "Unauthorized."
+              detail: 
+                type: string
+                example: "Authorization required to perform this action."
+              
+  404:
+    description: "Not Found."
+    schema:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status: 
+                type: integer
+                example: 404
+              title:
+                type: string
+                example: "Not Found."
+              detail: 
+                type: string
+                example: "Requested resource not found."
+          
+  422:
+    description: "Data Validation Failed."
+    schema:
+      $ref: '#/definitions/ErrorResponse'
+
+  500:
+    description: "Server Error."
+    schema:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object        
+            properties:
+              status: 
+                type: integer
+                example: 500
+              title:
+                type: string
+                example: "Server error."
+              detail: 
+                type: string
+                example: "MySQL server is not responding."
+
+definitions:
+  PaginationMeta:
+    type: object
+    required:
+      - current-page
+      - page-count
+      - total-count
+      - per-page
+    properties:
+      current-page:
+        type: integer
+        minimum: 1
+      page-count:
+        type: integer
+        minimum: 1
+      total-count:
+        type: integer
+        minimum: 1
+      per-page:
+        type: integer
+        minimum: 5
+    example:
+      current-page: 1
+      page-count: 4
+      total-count: 76 
+      per-page: 20
+
+  ErrorResponse:
+    type: object
+    required:
+      - errors
+    properties:
+      errors:
+        $ref: '#/definitions/ErrorsCollection'
+
+  ErrorsCollection:
+    type: array
+    items:
+      type: object
+      required:
+        - status
+        - source
+        - detail
+      properties:
+        status:
+          type: integer
+          default: 422
+        detail:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+              default: "/data/attributes/{inputField}"
+      example:
+        status: 422
+        detail: "Email is not a valid email address."
+        source: 
+          pointer: "/data/attributes/email"

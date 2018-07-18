@@ -1,0 +1,61 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: API Specification
+  description: |
+    This is an API specification starter template.
+    
+    Request/Response format is formed base on http://jsonapi.org/ specification, which is widely used and supported by numerous frontend/backend framework, such as:
+    Laravel, Yii2, Symfony, React.js, Vue.js, Angular, etc.
+  
+host: my-domain.com
+basePath: /api
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    description: |
+      For Authorization Bearer Auth format is in use:
+      >  Authorization: Bearer {api_token}
+      
+      _* to authorize with Swagger UI set value as \"Bearer {your_token}\"_
+    in: header
+schemes:
+- http
+consumes:
+- application/x-www-form-urlencoded
+produces:
+- application/json
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
+
+paths:
+  /auth/sign-in:
+    $ref: "routes/auth.yaml#/paths/login"
+  /auth/verify:
+    $ref: "routes/auth.yaml#/paths/verify"
+  /auth/password-reset:
+    $ref: "routes/auth.yaml#/paths/resetPassword"
+  /auth/password-token-verify:
+    $ref: "routes/auth.yaml#/paths/verifyResetToken"
+  /auth/password-update:
+    $ref: "routes/auth.yaml#/paths/updatePassword"
+
+  /users:
+    $ref: "routes/users.yaml#/paths/users"
+  /users/{user_id}:
+    $ref: "routes/users.yaml#/paths/user"
+
+definitions:
+  UserModel:
+    $ref: "models.yaml#/definitions/UserModel"
+  UserResponse:
+    $ref: "models.yaml#/definitions/UserResponse"
+  ErrorResponse:
+    $ref: "responses.yaml#/definitions/ErrorResponse"
+  ErrorsCollection:
+    $ref: "responses.yaml#/definitions/ErrorsCollection"
+  PaginationMeta:
+    $ref: "responses.yaml#/definitions/PaginationMeta"

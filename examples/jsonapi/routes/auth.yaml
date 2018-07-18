@@ -1,0 +1,123 @@
+swagger: '2.0'
+# paths
+paths:
+  login:
+    post:
+      summary: 'User authentication'
+      tags:
+        - 'auth'
+      parameters:
+      - name: email
+        in: formData
+        required: true
+        type: string
+      - name: password
+        in: formData
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                type: object
+                required:
+                  - access_token
+                  - token_type
+                  - expires_in
+                properties:
+                  access_token:
+                    type: string
+                    example: a4f2b8c2e6adc3ccfc99f3694f6f16d17776312d
+                  token_type:
+                    type: string
+                    default: Bearer
+                  expires_in:
+                    type: integer
+                    minimum: 60
+                    example: 3600
+              data:
+                type: array
+                items:
+                  $ref: '../models.yaml#/definitions/UserModel'
+                minItems: 1
+                maxItems: 1
+        422:
+          $ref: '../responses.yaml#/responses/422'
+  verify:
+    post:
+      summary: 'User token verification'
+      tags:
+        - 'auth'
+      parameters:
+        - name: access_token
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '../models.yaml#/definitions/UserResponse'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  resetPassword:
+    post:
+      summary: 'Request password reset email.'
+      tags:
+        - 'auth'
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+      responses:
+        204:
+          description: Password reset link has been sent to user's email.
+        422:
+          $ref: '../responses.yaml#/responses/422'
+
+  verifyResetToken:
+    post:
+      summary: 'Verify password reset token.'
+      tags:
+        - 'auth'
+      parameters:
+        - name: resetToken
+          in: formData
+          type: string
+          required: true
+      responses:
+        204:
+          description: Reset token is valid.
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  updatePassword:
+    post:
+      summary: 'Update user password'
+      tags:
+        - 'auth'
+      parameters:
+        - name: resetToken
+          in: formData
+          type: string
+          required: true
+        - name: password
+          in: formData
+          type: string
+          format: password
+          required: true  
+      responses:
+        204:
+          $ref: '../responses.yaml#/responses/204'
+        404:
+          $ref: '../responses.yaml#/responses/404'
+          
+          
