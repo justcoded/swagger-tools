@@ -1,17 +1,67 @@
 swagger: '2.0'
 definitions:
-  UserResponse:
+  UserModelDraft:
     type: object
     required:
-      - data
+      - email
+      - first_name
+      - last_name
+      - gender
+      - birthday
     properties:
-      data:
-        type: array
-        minItems: 1
-        maxItems: 1
-        items:
-          $ref: '#/definitions/UserModel'
+      email:
+        type: string
+        format: email
+        x-faker: email
+      first_name:
+        type: string
+        x-faker: firstName
+      last_name:
+        type: string
+        x-faker: lastName
+      gender:
+        type: string
+        enum: [male, female]
+      birthday:
+        type: integer
+        maximum: 1001001001
+        minimum: 0
+        description: timestamp
+      company:
+        type: string
+        x-faker: company
+      about:
+        type: string
+        x-faker: words
+        x-faker-config:
+          - 5
+          - 1
   UserModel:
+    allOf:
+      - $ref: '#/definitions/UserModelDraft'
+      - type: object
+        required:
+          - id
+        properties:
+          id:
+            type: integer
+            minimum: 1
+            example: 23
+          status:
+            type: integer
+            format: int32
+            enum: [10, 20, 30]
+          created_at:
+            type: integer
+            format: int64
+            minimum: 1500015000
+            maximum: 1550015500
+          updated_at:
+            type: integer
+            format: int64
+            minimum: 1500015000
+            maximum: 1550015500
+  UserResource:           
     type: object
     required: 
       - type
@@ -26,60 +76,7 @@ definitions:
         minimum: 1
         example: 23
       attributes:
-        type: object
-        required:
-          - id
-          - email
-          - first_name
-          - last_name
-          - status
-          - gender
-          - birthday
-        properties:
-          id:
-            type: integer
-            minimum: 1
-          email:
-            type: string
-            format: email
-            x-faker: email
-          first_name:
-            type: string
-            x-faker: firstName
-          last_name:
-            type: string
-            x-faker: lastName
-          status:
-            type: integer
-            format: int32
-            enum: [10, 20, 30]
-          gender:
-            type: string
-            enum: [male, female]
-          birthday:
-            type: integer
-            format: int64
-            maximum: 1001001001
-            minimum: 0
-          company:
-            type: string
-            x-faker: company
-          about:
-            type: string
-            x-faker: words
-            x-faker-config:
-              - 5
-              - 1
-          created_at:
-            type: integer
-            format: int64
-            minimum: 1500015000
-            maximum: 1550015500
-          updated_at:
-            type: integer
-            format: int64
-            minimum: 1500015000
-            maximum: 1550015500
+        $ref: '#/definitions/UserModel'
     example:
       type: user
       id: 23

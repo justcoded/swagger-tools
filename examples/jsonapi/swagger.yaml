@@ -51,8 +51,8 @@ paths:
 definitions:
   UserModel:
     $ref: "models.yaml#/definitions/UserModel"
-  UserResponse:
-    $ref: "models.yaml#/definitions/UserResponse"
+  UserResource:
+    $ref: "models.yaml#/definitions/UserResource"
   ErrorResponse:
     $ref: "responses.yaml#/definitions/ErrorResponse"
   ErrorsCollection:

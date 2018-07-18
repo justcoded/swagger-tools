@@ -27,7 +27,7 @@ paths:
                 minItems: 3
                 maxItems: 20
                 items:
-                  $ref: '../models.yaml#/definitions/UserModel'
+                  $ref: '../models.yaml#/definitions/UserResource'
                 
     post:
       summary: 'Create User'
@@ -36,33 +36,43 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: data[type]
-          in: formData
-          type: string
-          required: true
-          default: user
-        - name: data[attributes][first_name]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][last_name]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][email]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][password]
-          in: formData
-          type: string
-          format: password
-          required: true
+      - name: body
+        in: body
+        schema:
+          required:
+            - data
+          properties:
+            data: 
+              type: object
+              required:
+                - type
+                - attributes
+              properties:
+                type:
+                  type: string
+                  enum: 
+                    - user
+                attributes:
+                  allOf:
+                    - $ref: "../models.yaml#/definitions/UserModelDraft"
+                    - type: object
+                      required:
+                      - password
+                      properties:
+                        password:
+                          type: string
+                          example:
+                            123456     
       responses:
         201:
           description: Created
           schema:
-            $ref: '../models.yaml#/definitions/UserResponse'
+            type: object
+            required:
+              - data
+            properties:
+              data: 
+                $ref: '../models.yaml#/definitions/UserResource'
         422:
           $ref: '../responses.yaml#/responses/422'   
 
@@ -77,44 +87,55 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '../models.yaml#/definitions/UserResponse'
+            type: object
+            required:
+              - data
+            properties:
+              data: 
+                $ref: '../models.yaml#/definitions/UserResource'
         404:
           $ref: '../responses.yaml#/responses/404'
-    put:
+    patch:
       summary: 'Update User'
       tags:
         - 'user'
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '../params.yaml#/parameters/{user_id}'
-        - name: data[type]
-          in: formData
-          type: string
-          required: true
-          default: user
-        - name: data[attributes][first_name]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][last_name]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][email]
-          in: formData
-          type: string
-          required: true
-        - name: data[attributes][password]
-          in: formData
-          type: string
-          format: password
-          required: true
+        - name: body
+          in: body
+          schema:
+            required:
+              - data
+            properties:
+              data: 
+                type: object
+                required:
+                  - type
+                  - id
+                  - attributes
+                properties:
+                  type:
+                    type: string
+                    enum: 
+                      - user
+                  id:
+                    type: integer
+                    minimum: 1
+                    example: 23
+                  attributes:
+                    $ref: "../models.yaml#/definitions/UserModelDraft"
+             
       responses:
         200:
           description: OK
           schema:
-            $ref: '../models.yaml#/definitions/UserResponse'
+            type: object
+            required:
+              - data
+            properties:
+              data: 
+                $ref: '../models.yaml#/definitions/UserResource'
         422:
           $ref: '../responses.yaml#/responses/422'
         404:

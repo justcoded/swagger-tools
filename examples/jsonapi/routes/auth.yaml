@@ -7,14 +7,36 @@ paths:
       tags:
         - 'auth'
       parameters:
-      - name: email
-        in: formData
-        required: true
-        type: string
-      - name: password
-        in: formData
-        required: true
-        type: string
+      - name: body
+        in: body
+        schema:
+          required:
+            - data
+          properties:
+            data: 
+              type: object
+              required:
+                - type
+                - attributes
+              properties:
+                type:
+                  type: string
+                  enum: 
+                    - userInput
+                attributes:
+                  type: object
+                  required:
+                    - email
+                    - password
+                  properties:
+                    email: 
+                      type: string
+                      example:
+                        john@domain.com
+                    password:
+                      type: string
+                      example:
+                        123456
       responses:
         200:
           description: OK
@@ -42,11 +64,7 @@ paths:
                     minimum: 60
                     example: 3600
               data:
-                type: array
-                items:
-                  $ref: '../models.yaml#/definitions/UserModel'
-                minItems: 1
-                maxItems: 1
+                $ref: '../models.yaml#/definitions/UserResource'
         422:
           $ref: '../responses.yaml#/responses/422'
   verify:
@@ -55,15 +73,31 @@ paths:
       tags:
         - 'auth'
       parameters:
-        - name: access_token
-          in: formData
-          type: string
-          required: true
+      - name: body
+        in: body
+        schema:
+          required:
+            - meta
+          properties:
+            meta: 
+              type: object
+              required:
+                - access_token
+              properties:
+                access_token:
+                  type: string
+                  example: 
+                    - a4f2b8c2e6adc3ccfc99f3694f6f16d17776312d
       responses:
         200:
           description: OK
           schema:
-            $ref: '../models.yaml#/definitions/UserResponse'
+            type: object
+            required:
+              - data
+            properties:
+              data: 
+                $ref: '#/definitions/UserResource'
         404:
           $ref: '../responses.yaml#/responses/404'
 
@@ -73,10 +107,31 @@ paths:
       tags:
         - 'auth'
       parameters:
-        - name: email
-          in: formData
-          type: string
-          required: true
+      - name: body
+        in: body
+        schema:
+          required:
+            - data
+          properties:
+            data: 
+              type: object
+              required:
+                - type
+                - attributes
+              properties:
+                type:
+                  type: string
+                  enum: 
+                    - userInput
+                attributes:
+                  type: object
+                  required:
+                    - email
+                  properties:
+                    email: 
+                      type: string
+                      example:
+                        john@domain.com
       responses:
         204:
           description: Password reset link has been sent to user's email.
@@ -89,8 +144,45 @@ paths:
       tags:
         - 'auth'
       parameters:
+      - name: body
+        in: body
+        schema:
+          required:
+            - data
+          properties:
+            data: 
+              type: object
+              required:
+                - type
+                - attributes
+              properties:
+                type:
+                  type: string
+                  enum: 
+                    - userInput
+                attributes:
+                  type: object
+                  required:
+                    - reset_token
+                  properties:
+                    reset_token: 
+                      type: string
+                      example:
+                        6adc3ccfc99f3694f6f16d17776312d
+      responses:
+        204:
+          description: Reset token is valid.
+        404:
+          $ref: '../responses.yaml#/responses/404'
+
+  emailConfirm:
+    post:
+      summary: 'Confirm user email address w/ token from verification email.'
+      tags:
+        - 'auth'
+      parameters:
         - name: resetToken
-          in: formData
+          in: query
           type: string
           required: true
       responses:
@@ -105,15 +197,34 @@ paths:
       tags:
         - 'auth'
       parameters:
-        - name: resetToken
-          in: formData
-          type: string
-          required: true
-        - name: password
-          in: formData
-          type: string
-          format: password
-          required: true  
+      - name: body
+        in: body
+        schema:
+          required:
+            - data
+          properties:
+            data: 
+              type: object
+              required:
+                - type
+                - attributes
+              properties:
+                type:
+                  type: string
+                  enum: 
+                    - userInput
+                attributes:
+                  type: object
+                  required:
+                    - reset_token
+                    - password
+                  properties:
+                    reset_token: 
+                      type: string
+                      example:
+                        6adc3ccfc99f3694f6f16d17776312d
+                    password:
+                      type: string 
       responses:
         204:
           $ref: '../responses.yaml#/responses/204'
