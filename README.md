@@ -107,7 +107,7 @@ suggest to follow JSONAPI specs: [http://jsonapi.org/](http://jsonapi.org/)
 
 In general it define that we need to transfer data in a format like this:
 
-```json
+```js
 {
 	"data": [{ // collection or resource itself
 		"type": 'resource type',
@@ -141,14 +141,14 @@ based on resource types.
 
 JSONAPI has a lot of ready-to-use implementations: http://jsonapi.org/implementations/
 
-#### JSONAPI suggestion
+#### JSONAPI Format For Non-resource Requests
 
 Unfortunately, this specification doesn't answer how to form non-resource requests. Usually these are some actions, for example "search".
 
 We suggest to define that we can transfer a document-type model of type "userInput", which can vary from route to route.
 Looks like this:
 
-```json
+```js
 {
 	"data": {
 		"type": "userInput",
