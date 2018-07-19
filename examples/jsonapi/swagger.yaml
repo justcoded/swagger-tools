@@ -42,6 +42,8 @@ paths:
     $ref: "routes/auth.yaml#/paths/verifyResetToken"
   /auth/password-update:
     $ref: "routes/auth.yaml#/paths/updatePassword"
+  /auth/email-confirm:
+    $ref: "routes/auth.yaml#/paths/emailConfirm"    
 
   /users:
     $ref: "routes/users.yaml#/paths/users"

@@ -181,13 +181,13 @@ paths:
       tags:
         - 'auth'
       parameters:
-        - name: resetToken
+        - name: verify_token
           in: query
           type: string
           required: true
       responses:
         204:
-          description: Reset token is valid.
+          description: Email verified.
         404:
           $ref: '../responses.yaml#/responses/404'
 
