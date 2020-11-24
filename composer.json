@@ -21,7 +21,7 @@
     "php": ">=7.1.0",
     "symfony/yaml": "^4.0",
     "swagger-api/swagger-ui": "^3.13",
-    "fzaninotto/faker": "~1.4"
+    "fakerphp/faker": "^1.10"
   },
   "autoload": {
     "psr-4": {
