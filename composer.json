@@ -19,7 +19,7 @@
   "prefer-stable": true,
   "require": {
     "php": ">=7.1.0",
-    "symfony/yaml": "^4.0",
+    "symfony/yaml": "^5.2.3",
     "swagger-api/swagger-ui": "^3.13",
     "fakerphp/faker": "^1.10"
   },
