@@ -15,13 +15,13 @@
       "email": "aprokopenko@justcoded.com"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.1.0",
-    "symfony/yaml": "^5.2.3",
-    "swagger-api/swagger-ui": "^3.13",
-    "fakerphp/faker": "^1.10"
+    "php": ">=8.0.0",
+    "symfony/yaml": "^5.0 | ^6.0",
+    "swagger-api/swagger-ui": "^4.15.0",
+    "fakerphp/faker": "^1.21.0"
   },
   "autoload": {
     "psr-4": {

@@ -13,7 +13,7 @@ paths:
           required:
             - data
           properties:
-            data: 
+            data:
               type: object
               required:
                 - type
@@ -21,7 +21,7 @@ paths:
               properties:
                 type:
                   type: string
-                  enum: 
+                  enum:
                     - userInput
                 attributes:
                   type: object
@@ -29,7 +29,7 @@ paths:
                     - email
                     - password
                   properties:
-                    email: 
+                    email:
                       type: string
                       example:
                         john@domain.com
@@ -79,14 +79,14 @@ paths:
           required:
             - meta
           properties:
-            meta: 
+            meta:
               type: object
               required:
                 - access_token
               properties:
                 access_token:
                   type: string
-                  example: 
+                  example:
                     - a4f2b8c2e6adc3ccfc99f3694f6f16d17776312d
       responses:
         200:
@@ -96,8 +96,8 @@ paths:
             required:
               - data
             properties:
-              data: 
-                $ref: '#/definitions/UserResource'
+              data:
+                $ref: '../models.yaml#/definitions/UserResource'
         404:
           $ref: '../responses.yaml#/responses/404'
 
@@ -113,7 +113,7 @@ paths:
           required:
             - data
           properties:
-            data: 
+            data:
               type: object
               required:
                 - type
@@ -121,14 +121,14 @@ paths:
               properties:
                 type:
                   type: string
-                  enum: 
+                  enum:
                     - userInput
                 attributes:
                   type: object
                   required:
                     - email
                   properties:
-                    email: 
+                    email:
                       type: string
                       example:
                         john@domain.com
@@ -150,7 +150,7 @@ paths:
           required:
             - data
           properties:
-            data: 
+            data:
               type: object
               required:
                 - type
@@ -158,14 +158,14 @@ paths:
               properties:
                 type:
                   type: string
-                  enum: 
+                  enum:
                     - userInput
                 attributes:
                   type: object
                   required:
                     - reset_token
                   properties:
-                    reset_token: 
+                    reset_token:
                       type: string
                       example:
                         6adc3ccfc99f3694f6f16d17776312d
@@ -203,7 +203,7 @@ paths:
           required:
             - data
           properties:
-            data: 
+            data:
               type: object
               required:
                 - type
@@ -211,7 +211,7 @@ paths:
               properties:
                 type:
                   type: string
-                  enum: 
+                  enum:
                     - userInput
                 attributes:
                   type: object
@@ -219,16 +219,16 @@ paths:
                     - reset_token
                     - password
                   properties:
-                    reset_token: 
+                    reset_token:
                       type: string
                       example:
                         6adc3ccfc99f3694f6f16d17776312d
                     password:
-                      type: string 
+                      type: string
       responses:
         204:
           $ref: '../responses.yaml#/responses/204'
         404:
           $ref: '../responses.yaml#/responses/404'
-          
-          
+
+
