@@ -6,12 +6,12 @@ good API documentation and use it to build a Mock server.
 ## Why to use API documentation?
 
 When two different teams develop backend and frontend separately - they both need a document stated the request
-and response data format. Of course they make a deal in Slack for example and try to remember it. 
-However it this your product become a "black box", which is highly difficult to support.
+and response data format. Of course, they make a deal in Slack for example and try to remember it. 
+However, in this way your product become a "black box", which is highly difficult to support.
 
 As a solution we propose to create a structured API documentation, which is not dependent on some specific technology. 
 I mean that you don't need to learn some PHP or JavaScript to create such documentation.
-Nowadays there are two popular formats: [OAS](https://swagger.io/specification/) (Open API Specification) and 
+Nowadays, there are two popular formats: [OAS](https://swagger.io/specification/) (Open API Specification) and 
 [RAML](https://raml.org/) (RESTful API Modeling Language). RAML is pretty cool, but OAS has bigger community and OAS 
 became our choice. And unfortunately, we need to use outdated OAS2 format (aka "Swagger"), because OAS3 is 
 not supported by numerous tools you will probably need it future.
@@ -30,14 +30,21 @@ to keep things DRY (Don't Repeat Yourself)_
 
 ### Setup project
 
-To start with - you can clone this repository to some webserver. It use static html and javascript, so you don't need any
+To start with - you can clone this repository to some webserver. It uses static html and javascript, so you don't need any
 special server configuration. You will need composer package manager on the server.
 
-	git clone https://github.com/justcoded/swagger-tools.git /path/to/docroot/swagger
-	cd /path/to/docroot/swagger
-	composer install
+```bash
+git clone https://github.com/justcoded/swagger-tools.git /path/to/docroot/swagger
+cd /path/to/docroot/swagger
+composer install
+```
 
 That's it, you can open `http://mydomain.com/swagger/` in browser and you will get a Swagger UI with our sample doc.
+
+_Or you can try to check swagger UI running nginx with docker like this:_
+```bash
+docker run -p 8080:80 --name swagger-tools -v ./:/usr/share/nginx/html:ro nginx
+```
 
 ### Create your docs
 
@@ -105,7 +112,7 @@ on swagger identifiers and references you will need to install plugin called [Sw
 When you develop an API it's always a hard decision on what format JSON should be looks like. To solve this problem we 
 suggest to follow JSONAPI specs: [http://jsonapi.org/](http://jsonapi.org/)
 
-In general it define that we need to transfer data in a format like this:
+In general, it defines that we need to transfer data in a format like this:
 
 ```js
 {
@@ -247,7 +254,7 @@ You will get:
 
 # Using this repo as dependency
 
-Of course you can add this repository as dependency to your project, symlink swagger ui assets to your public repository
+Of course, you can add this repository as dependency to your project, symlink swagger ui assets to your public repository
 and create your template inside your framework to print swagger ui interface, pointing to some generated doc.
 
 As an example we created Yii extension, wrapping our PHP tools: https://github.com/justcoded/yii2-swaggerviewer
