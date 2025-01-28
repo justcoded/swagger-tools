@@ -65,7 +65,7 @@ class YamlReader
 			if (is_array($value)) {
 				$yaml = $this->mergeByReferences($yaml, $basedir, $branch_key);
 			} elseif ('$ref' === $key && is_string($value) && 0 !== strpos($value, '#')) {
-				list($file, $path) = explode('#', $value, 2);
+				[$file, $path] = explode('#', $value, 2);
 				if (! is_file($basedir . $file) || ! $ref_yaml_content = file_get_contents($basedir . $file)) {
 					throw new InvalidFileException('Reference file missing: ' . $basedir . $file);
 				}
@@ -127,14 +127,18 @@ class YamlReader
 	 * Convert array/input to yaml string
 	 *
 	 * @param array $input
-	 * @param int   $inline
-	 * @param int   $indent
+	 * @param int $inline
+	 * @param int $indent
+	 * @param int $options
 	 *
 	 * @return string
 	 */
-	public function dump($input, $inline = 50, $indent = 2)
-	{
-		return YamlParser::dump($input, $inline, $indent);
+	public function dump(
+		$input,
+		$inline = 50,
+		$indent = 2,
+		$options = YamlParser::DUMP_OBJECT_AS_MAP | YamlParser::DUMP_EMPTY_ARRAY_AS_SEQUENCE | YamlParser::DUMP_MULTI_LINE_LITERAL_BLOCK
+	) {
+		return YamlParser::dump($input, $inline, $indent, $options);
 	}
-
 }
