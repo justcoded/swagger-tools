@@ -123,22 +123,22 @@ class YamlReader
 		return YamlParser::parse($string);
 	}
 
-    /**
-     * Convert array/input to yaml string
-     *
-     * @param array $input
-     * @param int $inline
-     * @param int $indent
-     * @param int $options
-     *
-     * @return string
-     */
-    public function dump(
-        $input,
-        $inline = 50,
-        $indent = 2,
-        $options = YamlParser::DUMP_OBJECT_AS_MAP | YamlParser::DUMP_EMPTY_ARRAY_AS_SEQUENCE | YamlParser::DUMP_MULTI_LINE_LITERAL_BLOCK
-    ) {
-        return YamlParser::dump($input, $inline, $indent, $options);
-    }
+	/**
+	 * Convert array/input to yaml string
+	 *
+	 * @param array $input
+	 * @param int $inline
+	 * @param int $indent
+	 * @param int $options
+	 *
+	 * @return string
+	 */
+	public function dump(
+		$input,
+		$inline = 50,
+		$indent = 2,
+		$options = YamlParser::DUMP_OBJECT_AS_MAP | YamlParser::DUMP_EMPTY_ARRAY_AS_SEQUENCE | YamlParser::DUMP_MULTI_LINE_LITERAL_BLOCK
+	) {
+		return YamlParser::dump($input, $inline, $indent, $options);
+	}
 }
