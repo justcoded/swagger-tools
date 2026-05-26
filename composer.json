@@ -18,8 +18,8 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": ">=8.0.0",
-    "symfony/yaml": "^5.0 | ^6.0",
+    "php": "^8.2",
+    "symfony/yaml": "^5.0|^6.0|^7.0|^8.0 ",
     "swagger-api/swagger-ui": "^4.15.0",
     "fakerphp/faker": "^1.21.0"
   },
